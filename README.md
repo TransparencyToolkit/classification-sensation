@@ -1,4 +1,4 @@
 classification-sensation
 ========================
 
-Parse classification-related inform
+Parse classification-related information.
