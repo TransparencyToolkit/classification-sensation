@@ -86,7 +86,7 @@ def getcaveats(p):
   # document ignoring the parens because what the classification levels are
   # named is itself classified.
 
-  raw = re.findall("(?<=\()" + "[a-z/]*?/+[a-z/]*?" + "(?=\))", p)
+  raw = re.findall("(?<=\()" + "[a-z/]*?/[a-z/]*?" + "(?=\))", p)
   raw = map(lambda e: e.split("/")[1:], raw)
   raw = reduce(lambda acc, x: acc + x, raw, [])
   raw = filter(lambda e: not (e == "" or e == None), raw)
@@ -94,21 +94,22 @@ def getcaveats(p):
   return raw
 
 def paragraphs(doc):
-  ps = map(lambda p: clean(p).replace(" ", ""), doc["doc_text"].splitlines())
+  ps = map(lambda p: clean(p), doc["doc_text"].splitlines())
   i = 0
   psaux = []
   while True:
     if i >= len(ps): # list modification while iterating
       break
-    elif ps[i] in [None, ""]:
+    t = ps[i].replace(" ", "")
+    if t in [None, ""]:
       del(ps[i])
       continue
 
     d = {}
     d["paragraph_text"] = ps[i]
-    d["paragraph_classification"] = getclassification(ps[i])
-    d["paragraph_relto"] = getrelto(ps[i])
-    d["paragraph_handling_caveats"] = getcaveats(ps[i])
+    d["paragraph_classification"] = getclassification(t)
+    d["paragraph_relto"] = getrelto(t)
+    d["paragraph_handling_caveats"] = getcaveats(t)
     psaux.append(d)
 
     i += 1
