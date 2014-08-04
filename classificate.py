@@ -158,3 +158,5 @@ for d in docs:
   overall(d)
   pass
 pass
+
+print json.dumps(docs, check_circular=False, indent=2, encoding="ascii") # enjoy
