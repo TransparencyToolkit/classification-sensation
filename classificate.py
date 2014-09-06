@@ -98,7 +98,7 @@ def paragraphs(doc):
   i = 0
   psaux = []
   while True:
-    if i >= len(ps): # list modification while iterating
+    if i >= len(ps):
       break
     t = ps[i].replace(" ", "")
     if t in [None, ""]:
@@ -106,7 +106,7 @@ def paragraphs(doc):
       continue
 
     d = {}
-    d["paragraph_text"] = ps[i]
+    d["paragraph_text"] = ps[i] + " "
     d["paragraph_classification"] = getclassification(t)
     d["paragraph_relto"] = getrelto(t)
     d["paragraph_handling_caveats"] = getcaveats(t)
@@ -135,27 +135,43 @@ def overall(doc):
 
   return
 
-ind = 0
+i = 0
 while True:
-  if ind >= len(docs): # list modification while iterating
+  if i >= len(docs):
     break
 
   try:
-    docs[ind]["doc_text"][0]
+    docs[i]["doc_text"][0]
   except:
-    del(docs[ind])
+    del(docs[i])
     continue
     pass
 
-  ind += 1
+  i += 1
   pass
-del(ind)
+del(i)
 
 for d in docs:
   date(d)
   identify(d)
   paragraphs(d)
   overall(d)
+
+  i = 0
+  while True:
+    if i >= len(d["sub_paragraphs_classifications"]):
+      break
+    elif d["sub_paragraphs_classifications"][i]["paragraph_classification"] \
+         == "" and i > 0:
+      for f in d["sub_paragraphs_classifications"][i].keys():
+        d["sub_paragraphs_classifications"][i-1][f] \
+          += d["sub_paragraphs_classifications"][i][f]
+        pass
+      del(d["sub_paragraphs_classifications"][i])
+      continue
+    i += 1
+    pass
+  del(i)
   pass
 pass
 
