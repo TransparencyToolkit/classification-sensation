@@ -13,7 +13,7 @@ def clean(s): return \
     filter(lambda c: 0x20 <= ord(c) <= 0x7E or c in "\n\r\t", s).lower().strip()
 
 def get_time(doc, field):
-  for f in ["%Y-%m-%d", "%m/%d/%Y"]:
+  for f in ["%Y-%m-%d", "%m/%d/%Y", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M"]:
     try: return time.strptime(doc[field], f)
     except: pass
     pass
