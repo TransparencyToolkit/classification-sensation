@@ -4,7 +4,10 @@ import time
 
 # I'm not going to check for failure here.  You figure it out.
 with open("docs2.json", 'r') as f: docs = json.load(f)
-with open("isocodes.json", 'r') as f: upper_codes = json.load(f)
+with open("isocodes.json", 'r') as f: codes = json.load(f)
+upper_codes = dict([(
+  codes[i]["three_letter_iso"], codes[i]["two_letter_iso"])
+                    for i in codes.keys()])
 
 def clean(s): return \
     filter(lambda c: 0x20 <= ord(c) <= 0x7E or c in "\n\r\t", s).lower().strip()
