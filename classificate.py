@@ -11,26 +11,29 @@ upper_codes = dict([(
                     for i in codes.keys()])
 
 def clean(s): return \
-    filter(lambda c: 0x20 <= ord(c) <= 0x7E or c in "\n\r\t", s).lower().strip()
+  filter(lambda c: 0x20 <= ord(c) <= 0x7E or c in "\n\r\t", s).lower().strip()
 
 def get_time(doc, field):
-  for f in ["%Y-%m-%d", "%m/%d/%Y", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M"]:
-    try: return time.strptime(doc[field], f)
+  if doc[field] is None or doc[field].startswith("0000-00-00"):
+    return "nodate"
+
+  for f in ["%Y%m%d", "%Y-%m-%d", "%m/%d/%Y",
+            "%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M"]:
+    try: return time.strftime("%Y%m%d", time.strptime(doc[field], f))
     except: pass
     pass
-  if doc[field].startswith("0000-00-00"):
-    return "nodate"
+
   raise ValueError("No good times found in %s" % doc[field])
 
 def date(doc):
   date = get_time(doc, "released_date")
-  doc["released_date"] = time.strftime("%Y-%m-%d", date)
+  doc["released_date"] = date
 
 def identify(doc):
-  date = get_time(doc, "released_date")
+  date = doc["released_date"]
   title = doc["title"]
 
-  fields = [time.strftime("%Y%m%d", date), title]
+  fields = [date, title]
   doc["id"] = clean('|'.join(fields).replace(" ", "").replace("/", ""))
 
 def dock(cs):
