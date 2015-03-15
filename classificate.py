@@ -17,6 +17,8 @@ def get_time(doc, field):
     try: return time.strptime(doc[field], f)
     except: pass
     pass
+  if doc[field].startswith("0000-00-00"):
+    return "nodate"
   raise ValueError("No good times found in %s" % doc[field])
 
 def date(doc):
