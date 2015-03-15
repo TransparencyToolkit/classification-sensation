@@ -28,10 +28,9 @@ def date(doc):
 
 def identify(doc):
   date = get_time(doc, "released_date")
-  rel = doc["released_by"]
   title = doc["title"]
 
-  fields = [time.strftime("%Y%m%d", date), rel, title]
+  fields = [time.strftime("%Y%m%d", date), title]
   doc["id"] = clean('|'.join(fields).replace(" ", "").replace("/", ""))
 
 def dock(cs):
