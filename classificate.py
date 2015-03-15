@@ -1,5 +1,6 @@
 import json
 import re
+import sys
 import time
 
 # I'm not going to check for failure here.  You figure it out.
@@ -22,11 +23,11 @@ def get_time(doc, field):
   raise ValueError("No good times found in %s" % doc[field])
 
 def date(doc):
-  date = get_time(doc, "release_date")
-  doc["release_date"] = time.strftime("%Y-%m-%d", date)
+  date = get_time(doc, "released_date")
+  doc["released_date"] = time.strftime("%Y-%m-%d", date)
 
 def identify(doc):
-  date = get_time(doc, "release_date")
+  date = get_time(doc, "released_date")
   rel = doc["released_by"]
   title = doc["title"]
 
