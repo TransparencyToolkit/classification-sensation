@@ -7,7 +7,7 @@ import time
 with open("docs2.json", 'r') as f: docs = json.load(f)
 with open("isocodes.json", 'r') as f: codes = json.load(f)
 upper_codes = dict([(
-  codes[i]["three_letter_iso"], codes[i]["two_letter_iso"])
+  codes[i]["two_letter_iso"], codes[i]["three_letter_iso"])
                     for i in codes.keys()])
 
 def clean(s): return \
