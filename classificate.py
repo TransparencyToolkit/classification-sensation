@@ -6,8 +6,11 @@ import time
 # I'm not going to check for failure here.  You figure it out.
 with open("docs2.json", 'r') as f: docs = json.load(f)
 with open("isocodes.json", 'r') as f: codes = json.load(f)
-upper_codes = dict([(
-  codes[i]["two_letter_iso"], codes[i]["three_letter_iso"])
+two_codes = dict([(
+  codes[i]["two_letter_iso"], codes[i]["full_name"])
+                    for i in codes.keys()])
+three_codes = dict([(
+  codes[i]["three_letter_iso"], codes[i]["full_name"])
                     for i in codes.keys()])
 
 def clean(s): return \
@@ -65,18 +68,18 @@ def getrelto(p):
 
   shared = []
   if "FVEY" in raw:
-    shared += ["AUS", "CAN", "NZL", "USA", "GBR"]
+    shared += ["Australia", "Canada", "New Zealand", "United States", "Great Britain"]
     raw = raw.replace("FVEY", " ")
     pass
-  for code in upper_codes.keys():
-    if upper_codes[code] in raw:
-      shared.append(upper_codes[code])
-      raw = raw.replace(upper_codes[code], " ")
+  for code in three_codes.keys():
+    if three_codes[code] in raw:
+      shared.append(three_codes[code])
+      raw = raw.replace(code, " ")
       pass
     pass
-  for code in upper_codes.keys():
+  for code in two_codes.keys():
     if code in raw:
-      shared.append(upper_codes[code])
+      shared.append(two_codes[code])
       raw = raw.replace(code, " ")
       pass
     pass
