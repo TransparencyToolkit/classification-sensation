@@ -60,7 +60,7 @@ def getclassification(p):
   elif "controlledunclassifiedinformation" in p: return "CUI"
   elif "unclassified" in p: return "U"
 
-  return ""
+  return None
 
 def getrelto(p):
   raw = clean(''.join(re.findall("(?<=relto)" + "[^\\n\)]*", p)))
@@ -173,10 +173,12 @@ for d in docs:
     if i >= len(d["sub_paragraphs_classifications"]):
       break
     elif d["sub_paragraphs_classifications"][i]["paragraph_classification"] \
-         == "" and i > 0:
+         is None and i > 0:
       for f in d["sub_paragraphs_classifications"][i].keys():
-        d["sub_paragraphs_classifications"][i-1][f] \
-          += d["sub_paragraphs_classifications"][i][f]
+        if d["sub_paragraphs_classifications"][i][f] is not None:
+          d["sub_paragraphs_classifications"][i-1][f] \
+            += d["sub_paragraphs_classifications"][i][f]
+          pass
         pass
       del(d["sub_paragraphs_classifications"][i])
       continue
