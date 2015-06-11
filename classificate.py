@@ -135,7 +135,7 @@ def overall(doc):
   psaux = doc["sub_paragraphs_classifications"]
 
   try: doc["overall_classification"] = psaux[0]["paragraph_classification"]
-  except: doc["overall_classification"] = ""
+  except: doc["overall_classification"] = None
 
   try: doc["overall_relto"] = psaux[0]["paragraph_relto"]
   except: doc["overall_relto"] = []
