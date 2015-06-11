@@ -13,6 +13,15 @@ three_codes = dict([(
   codes[i]["three_letter_iso"], codes[i]["full_name"])
                     for i in codes.keys()])
 
+classes = {
+  "ts": "Top Secret",
+  "s": "Secret",
+  "c": "Confidential",
+  "pt": "Public Trust",
+  "cui": "Controlled Unclassified Information",
+  "u": "Unclassified",
+}
+
 def clean(s): return \
   filter(lambda c: 0x20 <= ord(c) <= 0x7E or c in "\n\r\t", s).lower().strip()
 
@@ -40,9 +49,9 @@ def identify(doc):
   doc["id"] = clean('|'.join(fields).replace(" ", "").replace("/", ""))
 
 def dock(cs):
-  for c in ["ts", "s", "c", "pt", "cui", "u"]:
+  for c in classes.keys():
     if reduce(lambda acc, x: acc or x.startswith(c), cs, False):
-      return c.upper()
+      return classes[c]
     pass
   return None
 
@@ -53,12 +62,10 @@ def getclassification(p):
   res = dock(re.findall("(?<=\()" + "[a-z]*?" + "(?=\))", p))
   if res: return res
 
-  if "topsecret" in p: return "TS"
-  elif "secret" in p: return "S"
-  elif "confidential" in p: return "C"
-  elif "publictrust" in p: return "PT"
-  elif "controlledunclassifiedinformation" in p: return "CUI"
-  elif "unclassified" in p: return "U"
+  for c in classes.values():
+    if c.lower().replace(" ", "") in p:
+      return c
+    pass
 
   return None
 
