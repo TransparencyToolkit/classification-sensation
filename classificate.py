@@ -4,7 +4,7 @@ import sys
 import time
 
 # I'm not going to check for failure here.  You figure it out.
-with open("docs2.json", 'r') as f: docs = json.load(f)
+with open("extracted.json", 'r') as f: docs = json.load(f)
 with open("isocodes.json", 'r') as f: codes = json.load(f)
 two_codes = dict([(
   codes[i]["two_letter_iso"], codes[i]["full_name"])
@@ -69,9 +69,10 @@ def getclassification(p):
 
   return None
 
-def getrelto(p):
+# id is passed in here to aid debugging; ignore it
+def getrelto(p, id):
   raw = clean(''.join(re.findall("(?<=relto)" + "[^\\n\)]*", p)))
-  raw = filter(lambda c: 'a' < c < 'z', raw).upper()
+  raw = filter(lambda c: 'a' <= c <= 'z' or c in [',', '.'], raw).upper()
 
   shared = []
   if "FVEY" in raw:
@@ -79,7 +80,7 @@ def getrelto(p):
     raw = raw.replace("FVEY", " ")
     pass
   for code in three_codes.keys():
-    if three_codes[code] in raw:
+    if code in raw:
       shared.append(three_codes[code])
       raw = raw.replace(code, " ")
       pass
@@ -126,7 +127,7 @@ def paragraphs(doc):
     d = {}
     d["paragraph_text"] = ps[i] + " "
     d["paragraph_classification"] = getclassification(t)
-    d["paragraph_relto"] = getrelto(t)
+    d["paragraph_relto"] = getrelto(t, doc["id"])
     d["paragraph_handling_caveats"] = getcaveats(t)
     psaux.append(d)
 
