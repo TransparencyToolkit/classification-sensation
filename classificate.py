@@ -6,9 +6,9 @@ import time
 # I'm not going to check for failure here.  You figure it out.
 with open("extracted.json", 'r') as f: docs = json.load(f)
 with open("isocodes.json", 'r') as f: codes = json.load(f)
-two_codes = dict([(
-  codes[i]["two_letter_iso"], codes[i]["full_name"])
-                    for i in codes.keys()])
+# two_codes = dict([(
+#   codes[i]["two_letter_iso"], codes[i]["full_name"])
+#                     for i in codes.keys()])
 three_codes = dict([(
   codes[i]["three_letter_iso"], codes[i]["full_name"])
                     for i in codes.keys()])
@@ -85,12 +85,12 @@ def getrelto(p, id):
       raw = raw.replace(code, " ")
       pass
     pass
-  for code in two_codes.keys():
-    if code in raw:
-      shared.append(two_codes[code])
-      raw = raw.replace(code, " ")
-      pass
-    pass
+  # for code in two_codes.keys():
+  #   if code in raw:
+  #     shared.append(two_codes[code])
+  #     raw = raw.replace(code, " ")
+  #     pass
+  #   pass
 
   return list(set(shared))
 
