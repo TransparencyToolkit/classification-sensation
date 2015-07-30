@@ -76,7 +76,7 @@ def getrelto(p, id):
 
   shared = []
   if "FVEY" in raw:
-    shared += ["Australia", "Canada", "New Zealand", "United States", "Great Britain"]
+    shared += ["Australia", "Canada", "New Zealand", "United States", "United Kingdom"]
     raw = raw.replace("FVEY", " ")
     pass
   for code in three_codes.keys():
