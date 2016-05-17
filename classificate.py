@@ -80,7 +80,7 @@ def getrelto(p, id):
     raw = raw.replace("FVEY", " ")
     pass
   for code in three_codes.keys():
-    if code == "and" or code == "fro" or code == "eri":
+    if code == "AND" or code == "FRO" or code == "ERI" or code == "OMN":
       # these are almost definitely false positives
       continue
 
