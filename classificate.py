@@ -4,8 +4,8 @@ import sys
 import time
 
 # I'm not going to check for failure here.  You figure it out.
-with open("extracted.json", 'r') as f: docs = json.load(f)
-with open("isocodes.json", 'r') as f: codes = json.load(f)
+with open("../NSA-Data/get-data/extracted.json", 'r') as f: docs = json.load(f)
+with open("../NSA-Data/extract-lists/isocodes.json", 'r') as f: codes = json.load(f)
 # two_codes = dict([(
 #   codes[i]["two_letter_iso"], codes[i]["full_name"])
 #                     for i in codes.keys()])
@@ -113,7 +113,7 @@ def getcaveats(p):
   return raw
 
 def paragraphs(doc):
-  ps = map(lambda p: clean(p), doc["doc_text"].splitlines())
+  ps = map(lambda p: clean(p), doc["plain_text"].splitlines())
   i = 0
   psaux = []
   while True:
@@ -160,7 +160,7 @@ while True:
     break
 
   try:
-    docs[i]["doc_text"][0]
+    docs[i]["plain_text"][0]
   except:
     del(docs[i])
     continue
